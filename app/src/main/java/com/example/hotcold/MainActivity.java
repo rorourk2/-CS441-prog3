@@ -15,7 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    int temp=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +29,19 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText t=(EditText)findViewById(R.id.editText);
         final EditText t2=(EditText)findViewById(R.id.editText2);
+        Intent mIntent=getIntent();
+        temp=mIntent.getIntExtra("the2",0);
+        bar.setProgress(temp);
+        String beginC=Integer.toString(temp);
+        t.setText(beginC);
+        double d=(double)(temp*9/5)+32;
+        beginC=Integer.toString((int)d);
+        t2.setText(beginC);
 
 
-        t.setText("0");
+
+        //t.setText("0");
+
 
         B1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 t2.setText(S);
                 S=Integer.toString(x);
                 t.setText(S);
+                temp=x;
             }
         });
         B2.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 t.setText(S);
                 S=Integer.toString(x);
                 t2.setText(S);
+                temp=(int)info;
             }
         });
 
@@ -87,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 info=(double)(progress*9/5)+32;
                 C=Integer.toString((int)(info));
                 t2.setText(C);
+                temp=progressValue;
             }
 
             @Override
@@ -103,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startOtherActivity();
+                startOtherActivity(temp);
             }
         });
     }
@@ -130,8 +143,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startOtherActivity(){
+    public void startOtherActivity(int x){
         Intent intent = new Intent(this, RoundTwo.class);
+        intent.putExtra("the",x);
         startActivity(intent);
     }
 }
